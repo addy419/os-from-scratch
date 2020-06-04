@@ -4,24 +4,24 @@
 
   mov ah, 0x0e          ; Scrolling teletype BIOS routine.
 
-  mov bp, 0x8000        ; Set the base of the stack a little above where BIOS is.
-  mov sp, bp            ; Loads our boot sector - so it won’t overwrite us.
+  mov bx, 4
 
-  push 'A'
-  push 'B'
-  push 'C'
+  cmp bx, 40
+  jl set_b
+  mov al, 'C'
+  jmp print
 
-  pop bx                ; We can only pop 16-bits since we are in 16-bit boundary.
-  mov al, bl            ; Most significant bit will be added by assembler as 0x00 so ignore it.
-  int 0x10
-  
-  pop bx
-  mov al, bl
-  int 0x10
+set_b:
+  cmp bx, 4
+  jle set_a
+  mov al, 'B'
+  jmp print
 
-  pop bx
-  mov al, bl
-  int 0x10
+set_a:
+  mov al, 'A'
+
+print:
+  int 0x10 ; Interrupt print al
 
   jmp $                 ; Jump to the current address forever.
 
