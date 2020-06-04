@@ -1,6 +1,6 @@
-; A simple boot sector that demonstrates stack
+; A simple boot sector
 
-  [org 0x7c00]          ; Skip boot sector.
+[org 0x7c00]            ; Skip to boot sector start.
 
   mov ah, 0x0e          ; Scrolling teletype BIOS routine.
 
@@ -21,7 +21,7 @@ set_a:
   mov al, 'A'
 
 print:
-  int 0x10 ; Interrupt print al
+  int 0x10              ; Interrupt print al
 
   jmp $                 ; Jump to the current address forever.
 
